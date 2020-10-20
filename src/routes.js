@@ -25,7 +25,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
-import HomePage from "pages/Home/index.js";
+import CockpitComercial from "pages/CockpitComercial/index.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
@@ -42,7 +42,7 @@ const dashboardRoutes = [
     name: "Cockipit Comercial",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
-    component: HomePage,
+    component: CockpitComercial,
     layout: "/admin"
   },
   {

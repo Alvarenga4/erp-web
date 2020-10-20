@@ -21,7 +21,12 @@ import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js"
 
 const useStyles = makeStyles(styles);
 
-export default function CockpitComercial() {
+export default function Graphics({
+  butchery,
+  deliveryman,
+  registerButcheryCity,
+  registerDeliverymanCity
+}) {
   const classes = useStyles();
   return (
     <div>
