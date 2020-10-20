@@ -1,5 +1,6 @@
 import React from "react";
 
+import ChartistGraph from "react-chartist";
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 
@@ -7,6 +8,7 @@ import Store from "@material-ui/icons/Store";
 import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 import Accessibility from "@material-ui/icons/Accessibility";
+import AccessTime from "@material-ui/icons/AccessTime";
 
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -19,6 +21,7 @@ import CardFooter from "components/Card/CardFooter.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
+import api from '../../services/api';
 const useStyles = makeStyles(styles);
 
 export default function Graphics({
@@ -27,6 +30,80 @@ export default function Graphics({
   registerButcheryCity,
   registerDeliverymanCity
 }) {
+  const [totalButcheryBasicPlan, setTotalButcheryBasicPlan] = React.useState(0);
+  const [totalButcheryIntermediatePlan, setTotalButcheryIntermediatePlan] = React.useState(0);
+  const [totalButcheryAdvancedPlan, setTotalButcheryAdvancedPlan] = React.useState(0);
+  var delays = 80,
+  durations = 500;
+  var delays2 = 80,
+    durations2 = 500;
+
+  React.useEffect(() => {
+    (async () => {
+      const response = await api.get('/admin/totalregistersplans');
+  
+      const {butchery} = response.data;
+      
+      if (butchery) {
+        setTotalButcheryBasicPlan(butchery.totalBasicPlans);
+        setTotalButcheryIntermediatePlan(butchery.totalIntermediatePlans);
+        setTotalButcheryAdvancedPlan(butchery.totalAdvancedPlans);
+      }
+    })()
+  }, []);
+
+  const planBasicsSubscribes = {
+    data: {
+      labels: [
+        "Basico",
+        "Intermediario",
+        "Avançado"
+      ],
+      series: [[totalButcheryBasicPlan, totalButcheryIntermediatePlan, totalButcheryAdvancedPlan]]
+    },
+    options: {
+      axisX: {
+        showGrid: false
+      },
+      low: 0,
+      high: 1000,
+      chartPadding: {
+        top: 0,
+        right: 5,
+        bottom: 0,
+        left: 0
+      }
+    },
+    responsiveOptions: [
+      [
+        "screen and (max-width: 640px)",
+        {
+          seriesBarDistance: 5,
+          axisX: {
+            labelInterpolationFnc: function(value) {
+              return value[0];
+            }
+          }
+        }
+      ]
+    ],
+    animation: {
+      draw: function(data) {
+        if (data.type === "bar") {
+          data.element.animate({
+            opacity: {
+              begin: (data.index + 1) * delays2,
+              dur: durations2,
+              from: 0,
+              to: 1,
+              easing: "ease"
+            }
+          });
+        }
+      }
+    }
+  };
+
   const classes = useStyles();
   return (
     <div>
@@ -222,7 +299,32 @@ export default function Graphics({
           </Card>
         </GridItem>
       </GridContainer>
-      
+
+      <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card chart>
+          <CardHeader color="success">
+            <ChartistGraph
+              className="ct-chart"
+              data={planBasicsSubscribes.data}
+              type="Bar"
+              options={planBasicsSubscribes.options}
+              responsiveOptions={planBasicsSubscribes.responsiveOptions}
+              listener={planBasicsSubscribes.animation}
+            />
+          </CardHeader>
+          <CardBody>
+            <h4 className={classes.cardTitle}>Planos Contrados - Açougue</h4>
+            <p className={classes.cardCategory}>Número de contratos por plano</p>
+          </CardBody>
+          <CardFooter chart>
+            <div className={classes.stats}>
+              <AccessTime /> Atualizado todos os dias
+            </div>
+          </CardFooter>
+        </Card>
+      </GridItem>
+      </GridContainer>
     </div>
   );
 }

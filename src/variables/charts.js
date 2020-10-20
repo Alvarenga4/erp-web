@@ -1,7 +1,5 @@
-// ##############################
-// // // javascript library for creating charts
-// #############################
 var Chartist = require("chartist");
+
 
 // ##############################
 // // // variables used to create animation on charts
@@ -66,26 +64,17 @@ const dailySalesChart = {
 };
 
 // ##############################
-// // // Email Subscriptions
+// // // Plans Subscribes
 // #############################
 
-const emailsSubscriptionChart = {
+const planBasicsSubscribes = {
   data: {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
+      "Basico",
+      "Intermediario",
+      "Avançado"
     ],
-    series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
+    series: [[542, 443, 320]]
   },
   options: {
     axisX: {
@@ -185,6 +174,5 @@ const completedTasksChart = {
 
 module.exports = {
   dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
+  planBasicsSubscribes
 };
