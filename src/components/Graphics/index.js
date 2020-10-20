@@ -40,7 +40,7 @@ export default function Graphics({
               </CardIcon>
               <p className={classes.cardCategory}>Açougues aprovados</p>
               <h3 className={classes.cardTitle}>
-                300 <small>açougues</small>
+                {butchery?.totalApprovedButchery ? butchery?.totalApprovedButchery : 0} <small>açougues</small>
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -59,7 +59,7 @@ export default function Graphics({
                 <Icon>warning</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Açougues Pendentes</p>
-              <h3 className={classes.cardTitle}>10</h3>
+              <h3 className={classes.cardTitle}>{butchery?.totalReplyButchery ? butchery?.totalReplyButchery : 0}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -76,7 +76,7 @@ export default function Graphics({
                 <Icon>info_outline</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Aguardando Aprovação Bifeon</p>
-              <h3 className={classes.cardTitle}>75</h3>
+              <h3 className={classes.cardTitle}> {butchery?.totalPendingButchery ? butchery?.totalPendingButchery : 0} </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -93,7 +93,7 @@ export default function Graphics({
                 <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total de Açougues Cadastrados</p>
-              <h3 className={classes.cardTitle}>1050</h3>
+              <h3 className={classes.cardTitle}> {butchery?.allButcheries ? butchery?.allButcheries : 0} </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -116,7 +116,7 @@ export default function Graphics({
               </CardIcon>
               <p className={classes.cardCategory}>Entregadores aprovados</p>
               <h3 className={classes.cardTitle}>
-                300 <small>entregadores</small>
+                {deliveryman?.totalApprovedDeliveryman ? deliveryman?.totalApprovedDeliveryman : 0} <small>entregadores</small>
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -135,7 +135,7 @@ export default function Graphics({
                 <Icon>warning</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Entregadores Pendentes</p>
-              <h3 className={classes.cardTitle}>10</h3>
+              <h3 className={classes.cardTitle}> {deliveryman?.totalReviewDeliveryman ? deliveryman?.totalReviewDeliveryman : 0} </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -147,17 +147,17 @@ export default function Graphics({
         </GridItem>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color="primary" stats icon>
-              <CardIcon color="primary">
-                <Icon>info_outline</Icon>
+            <CardHeader color="danger" stats icon>
+              <CardIcon color="danger">
+                <Icon>warning</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Aguardando Aprovação Bifeon</p>
-              <h3 className={classes.cardTitle}>75</h3>
+              <p className={classes.cardCategory}>Entregadores Reprovados</p>
+              <h3 className={classes.cardTitle}> {deliveryman?.totalDisapprovedDeliveryman ? deliveryman?.totalDisapprovedDeliveryman : 0} </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <LocalOffer />
-                Entregadores agurdando aprovação a Bifeon
+                Entregadores reprovados
               </div>
             </CardFooter>
           </Card>
@@ -169,7 +169,7 @@ export default function Graphics({
                 <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total de Entregadores Cadastrados</p>
-              <h3 className={classes.cardTitle}>1050</h3>
+              <h3 className={classes.cardTitle}> {deliveryman?.allDeliveyrmans ? deliveryman?.allDeliveyrmans : 0} </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -195,12 +195,7 @@ export default function Graphics({
                 tableHeaderColor="primary"
                 tableHead={["Cidades"]}
                 tableData={[
-                  ["Goiânia"],
-                  ["Vila Velha"],
-                  ["São José dos Campos"],
-                  ["Franca"],
-                  ["Anápolis"],
-                  ["Riberão Preto"]
+                  registerButcheryCity
                 ]}
               />
             </CardBody>
@@ -220,12 +215,7 @@ export default function Graphics({
                 tableHeaderColor="primary"
                 tableHead={["Cidades"]}
                 tableData={[
-                  ["Goiânia"],
-                  ["Vila Velha"],
-                  ["São José dos Campos"],
-                  ["Franca"],
-                  ["Anápolis"],
-                  ["Riberão Preto"]
+                  registerDeliverymanCity
                 ]}
               />
             </CardBody>
