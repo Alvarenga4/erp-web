@@ -40,6 +40,10 @@ export default function Graphics({
   const [totalFameClients, setFameClients] = React.useState(0);
   const [totalOthersClients, setOthersClients] = React.useState(0);
 
+  const [totalButcheryRating, setTotalButcheryRating] = React.useState(0);
+  const [totalDeliverymanRating, setTotalDeliverymanRating] = React.useState(0);
+  const [totalCustomerRating, setTotalCustomerRating] = React.useState(0);
+
   var delays = 80,
   durations = 500;
   var delays2 = 80,
@@ -80,21 +84,38 @@ export default function Graphics({
     })()
   }, []);
 
+  React.useEffect(() => {
+    (async () => {
+      const response = await api.get('/admin/totalstars');
+  
+      const {
+        totalButcheryRating, 
+        totalDeliverymanRating, 
+        totalCustomerRating, 
+      } = response.data;
+      
+      setTotalButcheryRating(totalButcheryRating);
+      setTotalDeliverymanRating(totalDeliverymanRating);
+      setTotalCustomerRating(totalCustomerRating);
+      
+    })()
+  }, []);
+
   const planBasicsSubscribes = {
     data: {
       labels: [
-        "Basico",
-        "Intermediario",
-        "Avançado"
+        `Basico (${totalButcheryBasicPlan})`,
+        `Intermediario (${totalButcheryIntermediatePlan})`,
+        `Avançado (${totalButcheryAdvancedPlan})`
       ],
-      series: [[totalButcheryBasicPlan, totalButcheryIntermediatePlan, totalButcheryAdvancedPlan, totalOthersClients]]
+      series: [[totalButcheryBasicPlan, totalButcheryIntermediatePlan, totalButcheryAdvancedPlan]]
     },
     options: {
       axisX: {
         showGrid: false
       },
       low: 0,
-      high: 1000,
+      high: 500,
       chartPadding: {
         top: 0,
         right: 5,
@@ -135,20 +156,72 @@ export default function Graphics({
   const clientRegisters = {
     data: {
       labels: [
-        "Total de consumidores",
-        "Cadastros incompletos",
-        "Sexo masculino",
-        "Sexo feminino",
-        "Sexo não informado",
+        `Total de consumidores (${allClients})`,
+        `Cadastros incompletos (${incompletClients})`,
+        `Sexo masculino (${totalMaleClients})`,
+        `Sexo feminino (${totalFameClients})`,
+        `Sexo não informado (${totalOthersClients})`,
       ],
-      series: [[allClients, incompletClients, totalMaleClients, totalFameClients, ]]
+      series: [[allClients, incompletClients, totalMaleClients, totalFameClients, totalOthersClients]]
     },
     options: {
       axisX: {
         showGrid: false
       },
       low: 0,
-      high: 1000,
+      high: 500,
+      chartPadding: {
+        top: 0,
+        right: 5,
+        bottom: 0,
+        left: 0
+      }
+    },
+    responsiveOptions: [
+      [
+        "screen and (max-width: 640px)",
+        {
+          seriesBarDistance: 5,
+          axisX: {
+            labelInterpolationFnc: function(value) {
+              return value[0];
+            }
+          }
+        }
+      ]
+    ],
+    animation: {
+      draw: function(data) {
+        if (data.type === "bar") {
+          data.element.animate({
+            opacity: {
+              begin: (data.index + 1) * delays2,
+              dur: durations2,
+              from: 0,
+              to: 1,
+              easing: "ease"
+            }
+          });
+        }
+      }
+    }
+  };
+
+  const totalStarts = {
+    data: {
+      labels: [
+        `Avaliações Açougues (${totalButcheryRating})`,
+        `Avaliações Entregadores (${totalDeliverymanRating})`,
+        `Avaliações Consumidores (${totalCustomerRating})`
+      ],
+      series: [[totalButcheryRating, totalDeliverymanRating, totalCustomerRating]]
+    },
+    options: {
+      axisX: {
+        showGrid: false
+      },
+      low: 0,
+      high: 500,
       chartPadding: {
         top: 0,
         right: 5,
@@ -384,7 +457,7 @@ export default function Graphics({
       
       <p>Graficos - Visualização detalhada</p>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
+        <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="success">
               <ChartistGraph
@@ -408,7 +481,7 @@ export default function Graphics({
           </Card>
         </GridItem>
       
-        <GridItem xs={12} sm={12} md={6}>
+        <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="info">
               <ChartistGraph
@@ -423,6 +496,30 @@ export default function Graphics({
             <CardBody>
               <h4 className={classes.cardTitle}>Relação de Consumidores Cadastrados</h4>
               <p className={classes.cardCategory}>relação de cadastros (consumidor)</p>
+            </CardBody>
+            <CardFooter chart>
+              <div className={classes.stats}>
+                <AccessTime /> Atualizado todos os dias
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={12} sm={12} md={4}>
+          <Card chart>
+            <CardHeader color="primary">
+              <ChartistGraph
+                className="ct-chart"
+                data={totalStarts.data}
+                type="Bar"
+                options={totalStarts.options}
+                responsiveOptions={totalStarts.responsiveOptions}
+                listener={totalStarts.animation}
+              />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>Total de avaliações</h4>
+              <p className={classes.cardCategory}>Total de avaliações</p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
