@@ -33,6 +33,13 @@ export default function Graphics({
   const [totalButcheryBasicPlan, setTotalButcheryBasicPlan] = React.useState(0);
   const [totalButcheryIntermediatePlan, setTotalButcheryIntermediatePlan] = React.useState(0);
   const [totalButcheryAdvancedPlan, setTotalButcheryAdvancedPlan] = React.useState(0);
+
+  const [allClients, setAllClients] = React.useState(0);
+  const [incompletClients, setIncompletClients] = React.useState(0);
+  const [totalMaleClients, setMaleClients] = React.useState(0);
+  const [totalFameClients, setFameClients] = React.useState(0);
+  const [totalOthersClients, setOthersClients] = React.useState(0);
+
   var delays = 80,
   durations = 500;
   var delays2 = 80,
@@ -52,6 +59,27 @@ export default function Graphics({
     })()
   }, []);
 
+  React.useEffect(() => {
+    (async () => {
+      const response = await api.get('/admin/totalusersregister');
+  
+      const {
+        totalClients, 
+        incompletClients, 
+        totalMaleClients, 
+        totalFameClients, 
+        totalOthersClients
+      } = response.data;
+      
+      setAllClients(totalClients);
+      setIncompletClients(incompletClients);
+      setMaleClients(totalMaleClients);
+      setFameClients(totalFameClients);
+      setOthersClients(totalOthersClients);
+      
+    })()
+  }, []);
+
   const planBasicsSubscribes = {
     data: {
       labels: [
@@ -59,7 +87,61 @@ export default function Graphics({
         "Intermediario",
         "Avançado"
       ],
-      series: [[totalButcheryBasicPlan, totalButcheryIntermediatePlan, totalButcheryAdvancedPlan]]
+      series: [[totalButcheryBasicPlan, totalButcheryIntermediatePlan, totalButcheryAdvancedPlan, totalOthersClients]]
+    },
+    options: {
+      axisX: {
+        showGrid: false
+      },
+      low: 0,
+      high: 1000,
+      chartPadding: {
+        top: 0,
+        right: 5,
+        bottom: 0,
+        left: 0
+      }
+    },
+    responsiveOptions: [
+      [
+        "screen and (max-width: 640px)",
+        {
+          seriesBarDistance: 5,
+          axisX: {
+            labelInterpolationFnc: function(value) {
+              return value[0];
+            }
+          }
+        }
+      ]
+    ],
+    animation: {
+      draw: function(data) {
+        if (data.type === "bar") {
+          data.element.animate({
+            opacity: {
+              begin: (data.index + 1) * delays2,
+              dur: durations2,
+              from: 0,
+              to: 1,
+              easing: "ease"
+            }
+          });
+        }
+      }
+    }
+  };
+
+  const clientRegisters = {
+    data: {
+      labels: [
+        "Total de consumidores",
+        "Cadastros incompletos",
+        "Sexo masculino",
+        "Sexo feminino",
+        "Sexo não informado",
+      ],
+      series: [[allClients, incompletClients, totalMaleClients, totalFameClients, ]]
     },
     options: {
       axisX: {
@@ -299,31 +381,56 @@ export default function Graphics({
           </Card>
         </GridItem>
       </GridContainer>
-
+      
+      <p>Graficos - Visualização detalhada</p>
       <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card chart>
-          <CardHeader color="success">
-            <ChartistGraph
-              className="ct-chart"
-              data={planBasicsSubscribes.data}
-              type="Bar"
-              options={planBasicsSubscribes.options}
-              responsiveOptions={planBasicsSubscribes.responsiveOptions}
-              listener={planBasicsSubscribes.animation}
-            />
-          </CardHeader>
-          <CardBody>
-            <h4 className={classes.cardTitle}>Planos Contrados - Açougue</h4>
-            <p className={classes.cardCategory}>Número de contratos por plano</p>
-          </CardBody>
-          <CardFooter chart>
-            <div className={classes.stats}>
-              <AccessTime /> Atualizado todos os dias
-            </div>
-          </CardFooter>
-        </Card>
-      </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <Card chart>
+            <CardHeader color="success">
+              <ChartistGraph
+                className="ct-chart"
+                data={planBasicsSubscribes.data}
+                type="Bar"
+                options={planBasicsSubscribes.options}
+                responsiveOptions={planBasicsSubscribes.responsiveOptions}
+                listener={planBasicsSubscribes.animation}
+              />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>Planos Contrados - Açougue</h4>
+              <p className={classes.cardCategory}>Número de contratos por plano</p>
+            </CardBody>
+            <CardFooter chart>
+              <div className={classes.stats}>
+                <AccessTime /> Atualizado todos os dias
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+      
+        <GridItem xs={12} sm={12} md={6}>
+          <Card chart>
+            <CardHeader color="info">
+              <ChartistGraph
+                className="ct-chart"
+                data={clientRegisters.data}
+                type="Bar"
+                options={clientRegisters.options}
+                responsiveOptions={clientRegisters.responsiveOptions}
+                listener={clientRegisters.animation}
+              />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>Relação de Consumidores Cadastrados</h4>
+              <p className={classes.cardCategory}>relação de cadastros (consumidor)</p>
+            </CardBody>
+            <CardFooter chart>
+              <div className={classes.stats}>
+                <AccessTime /> Atualizado todos os dias
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
       </GridContainer>
     </div>
   );
