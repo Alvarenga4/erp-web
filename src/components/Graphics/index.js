@@ -156,8 +156,8 @@ export default function Graphics({
   const clientRegisters = {
     data: {
       labels: [
-        `Total de consumidores (${allClients})`,
-        `Cadastros incompletos (${incompletClients})`,
+        `Total (${allClients})`,
+        `Incompletos (${incompletClients})`,
         `Sexo masculino (${totalMaleClients})`,
         `Sexo feminino (${totalFameClients})`,
         `Sexo não informado (${totalOthersClients})`,

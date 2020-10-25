@@ -26,6 +26,7 @@ import InputOutlined from "@material-ui/icons/InputOutlined";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import CockpitComercial from "pages/CockpitComercial/index.js";
+import Deliverymans from "pages/Deliverymans/index.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
@@ -43,6 +44,14 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: CockpitComercial,
+    layout: "/admin"
+  },
+  {
+    path: "/entregadores",
+    name: "Entregadores",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: Deliverymans,
     layout: "/admin"
   },
   // {
