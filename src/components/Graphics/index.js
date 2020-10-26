@@ -44,8 +44,6 @@ export default function Graphics({
   const [totalDeliverymanRating, setTotalDeliverymanRating] = React.useState(0);
   const [totalCustomerRating, setTotalCustomerRating] = React.useState(0);
 
-  var delays = 80,
-  durations = 500;
   var delays2 = 80,
     durations2 = 500;
 

@@ -17,6 +17,7 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
+import Store from "@material-ui/icons/Store";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
@@ -27,6 +28,8 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import CockpitComercial from "pages/CockpitComercial/index.js";
 import Deliverymans from "pages/Deliverymans/index.js";
+import Butcheries from "pages/Butcheries/index.js";
+import ButcheryForm from "pages/ButcheryForm/index.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
@@ -44,6 +47,14 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: CockpitComercial,
+    layout: "/admin"
+  },
+  {
+    path: "/acougues",
+    name: "Açougues",
+    rtlName: "لوحة القيادة",
+    icon: Store,
+    component: Butcheries,
     layout: "/admin"
   },
   {
@@ -110,12 +121,6 @@ const dashboardRoutes = [
   //   component: RTLPage,
   //   layout: "/rtl"
   // },
-  // {
-  //   path: '/',
-  //   name: "Sair",
-  //   icon: InputOutlined,
-  //   layout: "/"
-  // }
 ];
 
 export default dashboardRoutes;

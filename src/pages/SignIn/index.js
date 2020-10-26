@@ -26,7 +26,7 @@ function SignIn() {
             const response = await api.post(`/adminAuth/signIn`, data)
             console.log(response.data);
             setToken(response.data.token)
-            history.go('/admin/comercial');
+            history.push('/admin/comercial');
         } catch (err) {
             console.log(err);
         }
