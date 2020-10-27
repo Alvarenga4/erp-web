@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "components/CustomButtons/Button.js";
 
 import Store from "@material-ui/icons/Store";
 
@@ -21,7 +22,13 @@ function DeliverymanCard({
 }) {
   const classes = useStyles();
 
-  console.log(data)
+  const handleForm = async () => {
+    try {
+      alert('Se fudeu')
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <div>
       <GridContainer>
@@ -44,6 +51,14 @@ function DeliverymanCard({
                     <strong>Cidade: </strong>{deliveryman.city} <br />
                     <strong>Tipo: </strong>Moto <br />
                   </h3>
+                  <GridContainer>
+                    <GridItem xs={12} sm={6} md={6}>
+                      <Button type="button" color="info" onClick={handleForm}>Visualiar Dados</Button>
+                    </GridItem>
+                    <GridItem xs={12} sm={6} md={6}>
+                      <Button type="button" color="warning" onClick={handleForm}>Desabilitar Entregador</Button>
+                    </GridItem>
+                  </GridContainer>
                 </CardHeader>
                 <CardFooter stats>
                   <div className={classes.stats}>
