@@ -31,7 +31,14 @@ function ButcheryCard({
   const [search, setSearch] = React.useState('');
   const [status, setStatus] = React.useState('');
   const [operation, setOperation] = React.useState('');
+  const [loading, setLoading] = React.useState(true);
   const [filterDataSource, setFilteredDataSource] = React.useState([]);
+
+  React.useEffect(() => {
+    (() => {
+      data ? setLoading(false) : setLoading(true);
+    })()
+  }, []);
 
   const searchFilterFunction = (text) => {
     console.log(text)
@@ -98,95 +105,101 @@ function ButcheryCard({
         )}
       </GridContainer>
       <br /> <br />
-      <GridContainer>
-        {filterDataSource.length === 0 ? (
-          <>
-            {data.map(butchery => (
-              <GridItem xs={12} sm={6} md={6}>
-                <Card>
-                  <CardHeader color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`} stats icon>
-                    <CardIcon color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`}>
-                      <CardAvatar profile>
-                        <a href="#" onClick={e => e.preventDefault()}>
-                          <Img src={butchery.logo ? butchery.logo.url : logo} alt="..." />
-                        </a>
-                      </CardAvatar>
-                    </CardIcon>
-                      <p className={classes.cardCategory}> {butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado' } </p>
-                      <h3 className={classes.cardTitle}>
-                        <strong>Responsável: </strong>
-                            {butchery.responsible && butchery.responsible.length > 25
-                                ? butchery.responsible.substring(0, 25) + '...'
-                                : butchery.responsible}
-                            <br />
-                        <strong>CNPJ: </strong>{butchery.cnpj} <br />
-                        <strong>Estado: </strong>{butchery.state} <br />
-                        <strong>Cidade: </strong>{butchery.city} <br />
-                      </h3>
-                      <GridContainer>
-                        <GridItem xs={12} sm={6} md={6}>
-                          <Button type="button" color="info" onClick={handleForm}>Visualiar Dados</Button>
-                        </GridItem>
-                        <GridItem xs={12} sm={6} md={6}>
-                          <Button type="button" color="warning" onClick={handleForm}>Desabilitar Açougue</Button>
-                        </GridItem>
-                      </GridContainer>
-                    </CardHeader>
-                    <CardFooter stats>
-                      <div className={classes.stats}>
-                        <Store />
-                        <b>{butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado'}</b>
-                      </div>
-                    </CardFooter>
-                </Card>
-              </GridItem>
-            ))}
-          </>
-        ) : (
-          <>
-            {filterDataSource.map(butchery => (
-              <GridItem xs={12} sm={6} md={6}>
-                <Card>
-                  <CardHeader color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`} stats icon>
-                    <CardIcon color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`}>
-                      <CardAvatar profile>
-                        <a href="#" onClick={e => e.preventDefault()}>
-                          <Img src={butchery.logo ? butchery.logo.url : logo} alt="..." />
-                        </a>
-                      </CardAvatar>
-                    </CardIcon>
-                      <p className={classes.cardCategory}> {butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado' } </p>
-                      <h3 className={classes.cardTitle}>
-                        <strong>Responsável: </strong>
-                            {butchery.responsible && butchery.responsible.length > 25
-                                ? butchery.responsible.substring(0, 25) + '...'
-                                : butchery.responsible}
-                            <br />
-                        <strong>CNPJ: </strong>{butchery.cnpj} <br />
-                        <strong>Estado: </strong>{butchery.state} <br />
-                        <strong>Cidade: </strong>{butchery.city} <br />
-                      </h3>
-                      <GridContainer>
-                        <GridItem xs={12} sm={6} md={6}>
-                          <Button type="button" color="info" onClick={handleForm}>Visualiar Dados</Button>
-                        </GridItem>
-                        <GridItem xs={12} sm={6} md={6}>
-                          <Button type="button" color="warning" onClick={handleForm}>Desabilitar Açougue</Button>
-                        </GridItem>
-                      </GridContainer>
-                    </CardHeader>
-                    <CardFooter stats>
-                      <div className={classes.stats}>
-                        <Store />
-                        <b>{butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado'}</b>
-                      </div>
-                    </CardFooter>
-                </Card>
-              </GridItem>
-            ))}
-          </>
-        )}
-        </GridContainer>
+      {loading ? (
+        <label>Recolhendo informações...</label>
+      ) : (
+        <>
+        <GridContainer>
+          {filterDataSource.length === 0 ? (
+            <>
+              {data.map(butchery => (
+                <GridItem xs={12} sm={6} md={6}>
+                  <Card>
+                    <CardHeader color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`} stats icon>
+                      <CardIcon color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`}>
+                        <CardAvatar profile>
+                          <a href="#" onClick={e => e.preventDefault()}>
+                            <Img src={butchery.logo ? butchery.logo.url : logo} alt="..." />
+                          </a>
+                        </CardAvatar>
+                      </CardIcon>
+                        <p className={classes.cardCategory}> {butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado' } </p>
+                        <h3 className={classes.cardTitle}>
+                          <strong>Responsável: </strong>
+                              {butchery.responsible && butchery.responsible.length > 25
+                                  ? butchery.responsible.substring(0, 25) + '...'
+                                  : butchery.responsible}
+                              <br />
+                          <strong>CNPJ: </strong>{butchery.cnpj} <br />
+                          <strong>Estado: </strong>{butchery.state} <br />
+                          <strong>Cidade: </strong>{butchery.city} <br />
+                        </h3>
+                        <GridContainer>
+                          <GridItem xs={12} sm={6} md={6}>
+                            <Button type="button" color="info" onClick={handleForm}>Visualiar Dados</Button>
+                          </GridItem>
+                          <GridItem xs={12} sm={6} md={6}>
+                            <Button type="button" color="warning" onClick={handleForm}>Desabilitar Açougue</Button>
+                          </GridItem>
+                        </GridContainer>
+                      </CardHeader>
+                      <CardFooter stats>
+                        <div className={classes.stats}>
+                          <Store />
+                          <b>{butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado'}</b>
+                        </div>
+                      </CardFooter>
+                  </Card>
+                </GridItem>
+              ))}
+            </>
+          ) : (
+            <>
+              {filterDataSource.map(butchery => (
+                <GridItem xs={12} sm={6} md={6}>
+                  <Card>
+                    <CardHeader color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`} stats icon>
+                      <CardIcon color={`${butchery.operation === 'Opened' ? 'success' : 'danger'}`}>
+                        <CardAvatar profile>
+                          <a href="#" onClick={e => e.preventDefault()}>
+                            <Img src={butchery.logo ? butchery.logo.url : logo} alt="..." />
+                          </a>
+                        </CardAvatar>
+                      </CardIcon>
+                        <p className={classes.cardCategory}> {butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado' } </p>
+                        <h3 className={classes.cardTitle}>
+                          <strong>Responsável: </strong>
+                              {butchery.responsible && butchery.responsible.length > 25
+                                  ? butchery.responsible.substring(0, 25) + '...'
+                                  : butchery.responsible}
+                              <br />
+                          <strong>CNPJ: </strong>{butchery.cnpj} <br />
+                          <strong>Estado: </strong>{butchery.state} <br />
+                          <strong>Cidade: </strong>{butchery.city} <br />
+                        </h3>
+                        <GridContainer>
+                          <GridItem xs={12} sm={6} md={6}>
+                            <Button type="button" color="info" onClick={handleForm}>Visualiar Dados</Button>
+                          </GridItem>
+                          <GridItem xs={12} sm={6} md={6}>
+                            <Button type="button" color="warning" onClick={handleForm}>Desabilitar Açougue</Button>
+                          </GridItem>
+                        </GridContainer>
+                      </CardHeader>
+                      <CardFooter stats>
+                        <div className={classes.stats}>
+                          <Store />
+                          <b>{butchery.operation === 'Opened' ? 'Açougue aberto' : 'Açougue fechado'}</b>
+                        </div>
+                      </CardFooter>
+                  </Card>
+                </GridItem>
+              ))}
+            </>
+          )}
+          </GridContainer>
+        </>
+      )}
       </div>
   );
 }
