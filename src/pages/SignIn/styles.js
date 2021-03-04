@@ -57,3 +57,7 @@ export const Image = styled.img`
     width: 100px;
     height: 100px;
 `;
+
+export const WelcomeLabel = styled.h2`
+  font-weight: bold;
+`;

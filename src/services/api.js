@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import {getToken} from './auth';
+import { getToken } from './auth';
 
 const api = axios.create({
-  baseURL: 'https://bifeon.com.br:3333/v1',
+  baseURL: 'http://localhost:3333/',
 });
 
 api.interceptors.request.use(async (config) => {

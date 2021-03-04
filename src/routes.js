@@ -50,8 +50,8 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/acougues",
-    name: "Açougues",
+    path: "/clientes",
+    name: "Clientes",
     rtlName: "لوحة القيادة",
     icon: Store,
     component: Butcheries,

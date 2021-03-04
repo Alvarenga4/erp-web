@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 
-import ButcheryCard from "../../components/ButcheryCard";
+import ClientsCard from "../../components/ClientsCard";
 
 import api from "../../services/api";
 import store from "./store";
+import { getIdCompany } from '../../services/auth';
 
 function Butcheries() {
-  const [butcheries, setButcheries] = useState([]);
+  const [clients, setClients] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await api.get("admin/butchery");
-        setButcheries(response.data);
+        const master_company_id = await getIdCompany();
+        const response = await api.get("/clients", {
+          headers: {
+            master_company_id
+          }
+        });
+        setClients(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -22,7 +28,7 @@ function Butcheries() {
   return (
     <>
       <Provider store={store}>
-        <ButcheryCard data={butcheries} />
+        <ClientsCard data={clients} />
       </Provider>
     </>
   );
