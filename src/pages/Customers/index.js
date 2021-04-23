@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 
+import Button from "components/CustomButtons/Button.js";
 import ClientsCard from "../../components/ClientsCard";
+
+import {
+  TextButton
+} from './styles';
 
 import api from "../../services/api";
 import store from "./store";
@@ -28,6 +33,11 @@ function Butcheries() {
   return (
     <>
       <Provider store={store}>
+        <Button>
+          <TextButton>
+            Adicionar Cliente
+          </TextButton>
+        </Button>
         <ClientsCard data={clients} />
       </Provider>
     </>

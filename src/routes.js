@@ -28,7 +28,7 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import CockpitComercial from "pages/CockpitComercial/index.js";
 import Deliverymans from "pages/Deliverymans/index.js";
-import Butcheries from "pages/Butcheries/index.js";
+import Customers from "pages/Customers/index.js";
 import ButcheryForm from "pages/ButcheryForm/index.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
@@ -54,7 +54,7 @@ const dashboardRoutes = [
     name: "Clientes",
     rtlName: "لوحة القيادة",
     icon: Store,
-    component: Butcheries,
+    component: Customers,
     layout: "/admin"
   },
   {
